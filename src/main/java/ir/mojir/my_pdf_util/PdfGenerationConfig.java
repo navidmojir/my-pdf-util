@@ -1,8 +1,5 @@
 package ir.mojir.my_pdf_util;
 
-import com.itextpdf.text.Font;
-import com.itextpdf.text.BaseColor;
-
 public class PdfGenerationConfig {
     private String pdfBoldFontFilePath = "XB_ZarBd.ttf";
 
