@@ -8,6 +8,7 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
@@ -122,8 +123,10 @@ public class PdfGenerator {
     }
 
     private PdfPCell makeHeaderCell(String text, int colspan) {
-        return makeCell(text, titleFont, Element.ALIGN_CENTER, Element.ALIGN_TOP,
-                25, gray, colspan);
+    	PdfPCell cell = makeCell(text, titleFont, Element.ALIGN_LEFT, Element.ALIGN_TOP,
+                25, white, colspan);
+    	cell.disableBorderSide(Rectangle.TOP | Rectangle.BOTTOM | Rectangle.RIGHT | Rectangle.LEFT);
+    	return cell;
     }
 
 //    private PdfPCell makeTitleCell(String text) {
@@ -131,7 +134,8 @@ public class PdfGenerator {
 //    }
 
     protected PdfPCell makeTitleCell(String text, int colspan) {
-        return makeCell(text, boldFont, Element.ALIGN_LEFT, Element.ALIGN_TOP, config.getRowHeight(), gray, colspan);
+    	return  makeCell(text, boldFont, Element.ALIGN_LEFT, Element.ALIGN_TOP, config.getRowHeight(), gray, colspan);
+    	
     }
 
     protected PdfPCell makeValueCell(String text) {
