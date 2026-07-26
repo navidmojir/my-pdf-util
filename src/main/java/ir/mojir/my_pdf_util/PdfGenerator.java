@@ -6,6 +6,7 @@ import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Phrase;
 import com.itextpdf.text.Rectangle;
@@ -47,6 +48,8 @@ public class PdfGenerator {
             document.open();
 
             for(PdfTableGenReq table: req.getTables()) {
+            	if(table.isOnNewPage())
+            		document.newPage();
                 document.add(makeTable(table));
             }
 
@@ -101,6 +104,9 @@ public class PdfGenerator {
                 PdfTableGenReq.TableColumn column = row.getColumns().get(i);
                 if(column.isHeader())
                     table.addCell(makeTitleCell(column.getValue(), column.getColSpan()));
+                else if(column.isImageColumn())
+                	table.addCell(makeImageCell(column.getImageBytes(), column.getImageRowSpan(), 
+                			column.getColSpan(), column.getImageAbsoluteWidth(), column.getImageAbsoluteHeight()));
                 else
                     table.addCell(makeValueCell(column.getValue(), column.getColSpan()));
             }
@@ -160,4 +166,19 @@ public class PdfGenerator {
         cell.setRunDirection(PdfWriter.RUN_DIRECTION_RTL);
         return cell;
     }
+    
+    private PdfPCell makeImageCell(byte[] imageBytes, int rowSpan, int colSpan, float absoluteWidth, float absoluteHeight) {
+		try {
+			Image image = Image.getInstance(imageBytes);
+			image.scaleAbsolute(absoluteWidth, absoluteHeight);
+			image.setBorder(Rectangle.BOX);
+			image.setBorderWidth(1f);
+			PdfPCell cell = new PdfPCell(image);
+			cell.setRowspan(rowSpan);
+			cell.setColspan(colSpan);
+			return cell;
+		} catch(Exception e) {
+			throw new RuntimeException("Failed to make image cell", e);
+		}
+	}
 }

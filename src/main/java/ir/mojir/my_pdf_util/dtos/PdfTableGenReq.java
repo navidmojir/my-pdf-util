@@ -6,7 +6,12 @@ public class PdfTableGenReq {
 
     public static class TableColumn {
         private boolean header = false;
+        private boolean imageColumn = false;
         private String value;
+        private byte[] imageBytes = null;
+        private float imageAbsoluteWidth;
+        private float imageAbsoluteHeight;
+        private int imageRowSpan = 1;
 
         private int colSpan = 1;
 
@@ -48,6 +53,48 @@ public class PdfTableGenReq {
         public void setColSpan(int colSpan) {
             this.colSpan = colSpan;
         }
+
+		public boolean isImageColumn() {
+			return imageColumn;
+		}
+
+		public void setImageColumn(boolean imageColumn) {
+			this.imageColumn = imageColumn;
+		}
+
+		public byte[] getImageBytes() {
+			return imageBytes;
+		}
+
+		public void setImageBytes(byte[] imageBytes) {
+			this.imageBytes = imageBytes;
+		}
+
+		public float getImageAbsoluteWidth() {
+			return imageAbsoluteWidth;
+		}
+
+		public void setImageAbsoluteWidth(float imageAbsoluteWidth) {
+			this.imageAbsoluteWidth = imageAbsoluteWidth;
+		}
+
+		public float getImageAbsoluteHeight() {
+			return imageAbsoluteHeight;
+		}
+
+		public void setImageAbsoluteHeight(float imageAbsoluteHeight) {
+			this.imageAbsoluteHeight = imageAbsoluteHeight;
+		}
+
+		public int getImageRowSpan() {
+			return imageRowSpan;
+		}
+
+		public void setImageRowSpan(int imageRowSpan) {
+			this.imageRowSpan = imageRowSpan;
+		}
+        
+        
     }
 
     public static class TableRow {
@@ -83,11 +130,14 @@ public class PdfTableGenReq {
             this.rowSpan = rowSpan;
         }
     }
+    
     private String title;
 
     private int[] columnWidths;
 
     private List<TableRow> rows;
+    
+    private boolean onNewPage = false;
 
     public String getTitle() {
         return title;
@@ -112,4 +162,14 @@ public class PdfTableGenReq {
     public void setRows(List<TableRow> rows) {
         this.rows = rows;
     }
+
+	public boolean isOnNewPage() {
+		return onNewPage;
+	}
+
+	public void setOnNewPage(boolean onNewPage) {
+		this.onNewPage = onNewPage;
+	}
+    
+    
 }
